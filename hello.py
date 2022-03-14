@@ -5,6 +5,8 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = "y958G4V5W!Y&E"
+
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 
