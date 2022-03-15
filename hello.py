@@ -62,10 +62,13 @@ def send_async_email(app, msg):
 
 
 def send_email(to, subject, template, **kwargs):
-    msg = Message(app.config['FLASKY_MAIL_SUBJECT_PREFIX'] + ' ' + subject,
-                  sender=app.config['FLASKY_MAIL_SENDER'], recipients=[to])
-    msg.body = render_template(template + '.txt', **kwargs)
-    msg.html = render_template(template + '.html', **kwargs)
+    msg = Message(
+        app.config["FLASKY_MAIL_SUBJECT_PREFIX"] + " " + subject,
+        sender=app.config["FLASKY_MAIL_SENDER"],
+        recipients=[to],
+    )
+    msg.body = render_template(template + ".txt", **kwargs)
+    msg.html = render_template(template + ".html", **kwargs)
     thr = Thread(target=send_async_email, args=[app, msg])
     thr.start()
     return thr
@@ -103,9 +106,10 @@ def index():
             db.session.add(user)
             db.session.commit()
             session["known"] = False
-            if app.config['FLASKY_ADMIN']:
-                send_email(app.config['FLASKY_ADMIN'], 'New User',
-                           'mail/new_user', user=user)
+            if app.config["FLASKY_ADMIN"]:
+                send_email(
+                    app.config["FLASKY_ADMIN"], "New User", "mail/new_user", user=user
+                )
         else:
             session["known"] = True
         session["name"] = form.name.data
